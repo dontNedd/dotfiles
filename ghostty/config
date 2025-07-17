@@ -4,7 +4,6 @@ window-padding-x = 0
 window-padding-y = 0,0
 window-padding-balance = true
 
-
 ## KEYBINDS
 keybind = all:ctrl+shift+j=goto_split:down
 keybind = all:ctrl+shift+k=goto_split:up

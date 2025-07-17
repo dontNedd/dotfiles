@@ -8,3 +8,5 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- :Ex files
 vim.keymap.set('n', '<leader>e', ':Ex<CR>')
 
+-- Clear highlights on search when pressing <Esc> in normal mode
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')

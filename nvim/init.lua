@@ -6,3 +6,4 @@ end)
 
 require("aos.config.lazy")
 require("aos.config.keybinds")
+require("aos.config.options")
