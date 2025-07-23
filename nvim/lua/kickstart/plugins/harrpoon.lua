@@ -12,7 +12,7 @@ return {
     -- Add file to Harpoon
     vim.keymap.set('n', '<leader>a', function()
       harpoon:list():add()
-    end)
+    end, { desc = 'Add to Harpoon' })
 
     -- Toggle quick menu
     vim.keymap.set('n', '<C-e>', function()
@@ -20,16 +20,16 @@ return {
     end)
 
     -- Navigate to file 1-4
-    vim.keymap.set('n', '<C-h>', function()
+    vim.keymap.set('n', '<C-a>', function()
       harpoon:list():select(1)
     end)
-    vim.keymap.set('n', '<C-t>', function()
+    vim.keymap.set('n', '<C-s>', function()
       harpoon:list():select(2)
     end)
-    vim.keymap.set('n', '<C-n>', function()
+    vim.keymap.set('n', '<C-d>', function()
       harpoon:list():select(3)
     end)
-    vim.keymap.set('n', '<C-s>', function()
+    vim.keymap.set('n', '<C-f>', function()
       harpoon:list():select(4)
     end)
 
