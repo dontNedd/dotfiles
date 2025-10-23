@@ -2,6 +2,11 @@
 
 local opt = vim.o
 
+opt.expandtab = true
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.shiftwidth = 4
+
 -- Make line numbers default
 opt.number = true
 -- You can also add relative line numbers, to help with jumping.
