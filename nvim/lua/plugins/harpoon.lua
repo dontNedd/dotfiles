@@ -29,7 +29,7 @@ return {
     },
     config = function()
         local harpoon = require('harpoon')
-        vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+        vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "[A]dd harpoon list" })
         vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
         vim.keymap.set("n", "<leader>fl", function() toggle_telescope(harpoon:list()) end,
             { desc = "Open harpoon window" })

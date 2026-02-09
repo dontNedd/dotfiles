@@ -13,6 +13,8 @@ return {
         -- Snippets
         'L3MON4D3/LuaSnip',
         'rafamadriz/friendly-snippets',
+        -- lspkind for nice dropdown
+        'onsails/lspkind-nvim',
     },
     config = function()
         local autoformat_filetypes = {
@@ -104,6 +106,7 @@ return {
                 "ts_ls",
                 "eslint",
                 "pyright",
+                "clangd",
             },
             handlers = {
                 function(server_name)
@@ -134,17 +137,36 @@ return {
         local cmp = require('cmp')
 
         require('luasnip.loaders.from_vscode').lazy_load()
-
         vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
+        local function border(hl)
+            return {
+                { "╭", hl },
+                { "─", hl },
+                { "╮", hl },
+                { "│", hl },
+                { "╯", hl },
+                { "─", hl },
+                { "╰", hl },
+                { "│", hl },
+            }
+        end
+
+        local lspkind = require('lspkind')
         cmp.setup({
             preselect = 'item',
             completion = {
                 completeopt = 'menu,menuone,noinsert'
             },
             window = {
-                documentation = cmp.config.window.bordered(),
+                completion = {
+                    border = border("CmpBorder"),
+                    winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
+                    scrollbar = false,
+                },
+                documentation = false,
             },
+
             sources = {
                 { name = 'path' },
                 { name = 'nvim_lsp' },
@@ -157,16 +179,13 @@ return {
                 end,
             },
             formatting = {
-                fields = { 'abbr', 'menu', 'kind' },
-                format = function(entry, item)
-                    local n = entry.source.name
-                    if n == 'nvim_lsp' then
-                        item.menu = '[LSP]'
-                    else
-                        item.menu = string.format('[%s]', n)
-                    end
-                    return item
-                end,
+                fields = { "abbr", "kind", "menu" },
+                format = lspkind.cmp_format({
+                    maxwidth = 50,
+                    ellipsis_char = "...",
+                    mode = "symbol_text",
+                    -- symbol_map = {}, -- optional custom icons
+                }),
             },
             mapping = cmp.mapping.preset.insert({
                 -- confirm completion item

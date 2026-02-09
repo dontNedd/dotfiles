@@ -1,7 +1,6 @@
 vim.g.mapleader = " "
-
 local set = vim.keymap.set
-set("n", "<leader>e", vim.cmd.Ex, { desc = "netrw" })
+set("n", "<leader>e", vim.cmd.Ex, { desc = "N[e]trw" })
 
 -- clear hl
 set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -29,21 +28,23 @@ set("n", "N", "Nzzzv")
 -- sometimes in insert mode, control-c doesn't exactly work like escape
 set("i", "<C-c>", "<Esc>")
 
--- add binds for Control J/K to scroll thru quickfix list
--- global (all open window/buffer)
--- NOTE: might confilct with moving windows
-set("n", "<C-j>", "<cmd>cnext<CR>zz")
-set("n", "<C-k>", "<cmd>cprev<CR>zz")
--- local
-set("n", "<leader>k", "<cmd>lnext<CR>zz")
-set("n", "<leader>j", "<cmd>lprev<CR>zz")
-
 -- see undotree
-set("n", "<leader>u", vim.cmd.UndotreeToggle)
+set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "[U]ndotree" })
 
--- disable Ex mode
-set("n", "Q", "<nop>")
+-- reload config
+function _G.reload_config()
+    local reload = require("plenary.reload").reload_module
+    reload("me", false)
+
+    dofile(vim.env.MYVIMRC)
+    vim.notify("Nvim configuration reloaded!", vim.log.levels.INFO)
+end
+
+set("n", "rr", _G.reload_config, { desc = "[R]eload configuration without restart nvim" })
 
 
 -- insert mode to normal mode
 vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = true, silent = true })
+
+-- Diagnostic keymaps
+set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Diagnostic [Q]uickfix list" })

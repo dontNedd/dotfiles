@@ -17,7 +17,16 @@ o.relativenumber = true
 o.tabstop = 4
 o.shiftwidth = 4
 o.autoindent = true
-o.expandtab = true
+o.expandtab = true -- tabs == spaces
+o.wrap = true      -- display a wrapped line
+
+o.listchars = {
+    tab = "┊ ",
+    trail = "·",
+    extends = "»",
+    precedes = "«",
+    nbsp = "×",
+}
 
 -- search settings
 o.ignorecase = true
@@ -26,6 +35,17 @@ o.smartcase = true
 -- appearance
 o.signcolumn = "yes"
 o.cursorline = true
+o.showmode = false
+o.termguicolors = true
+
+-- autocomplete
+o.completeopt = { "menu", "menuone", "noselect" }
+o.shortmess = o.shortmess + {
+    c = true,
+}
+
+-- Hide cmd line
+o.cmdheight = 0 -- more space in the neovim command line for displaying messages
 
 -- clipboard
 o.clipboard:append("unnamedplus")
@@ -39,6 +59,7 @@ o.iskeyword:append("-")
 
 -- x rows from top/bottom
 o.scrolloff = 8
+o.sidescrolloff = 3
 
 -- undo dir settings
 o.swapfile = false
@@ -51,3 +72,20 @@ o.incsearch = true
 
 -- faster cursor hold
 o.updatetime = 50
+o.history = 100
+o.redrawtime = 1500
+o.timeoutlen = 250
+
+-- Enable virtual_lines feature if the current nvim version is 0.11+
+if vim.fn.has("nvim-0.11") > 0 then
+    vim.diagnostic.config({
+        -- Use the default configuration
+        -- virtual_lines = true,
+
+        -- Alternatively, customize specific options
+        virtual_lines = {
+            -- Only show virtual line diagnostics for the current cursor line
+            current_line = true,
+        },
+    })
+end

@@ -5,10 +5,6 @@ return {
     { -- This helps with ssh tunneling and copying to clipboard
         'ojroques/vim-oscyank',
     },
-    { -- This generates docblocks
-        'kkoomen/vim-doge',
-        build = ':call doge#install()'
-    },
     { -- Git plugin
         'tpope/vim-fugitive',
     },
@@ -20,5 +16,12 @@ return {
         config = function()
             require('nvim-highlight-colors').setup({})
         end
+    },
+    { -- Keymappings
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("which-key").setup()
+        end,
     },
 }

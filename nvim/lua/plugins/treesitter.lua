@@ -1,12 +1,11 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
+        evevent = { "BufReadPost", "BufNewFile", "BufWritePost" },
+        cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
         build = ":TSUpdate",
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter-textobjects",
-        },
         config = function()
-            local configs = require("nvim-treesitter.configs")
+            local configs = require("nvim-treesitter")
             configs.setup({
                 textobjects = {
                     select = {
@@ -20,9 +19,18 @@ return {
                 },
                 highlight = {
                     enable = true,
+                    use_languagetree = true, -- for embedded langs
                 },
-                indent = {enable = true},
-                autotag = {enable = true},
+                indent = { enable = true },
+                autotag = { enable = true },
+                refactor = {
+                    highlight_definitions = {
+                        enable = true,
+                    },
+                    highlight_current_scope = {
+                        enable = false,
+                    },
+                },
                 ensure_installed = {
                     "json",
                     "python",
@@ -37,7 +45,6 @@ return {
                 },
                 auto_install = false,
             })
-
         end
     }
 }

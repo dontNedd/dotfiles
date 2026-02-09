@@ -1,47 +1,71 @@
 return {
-    'nvim-telescope/telescope.nvim',
+    "nvim-telescope/telescope.nvim",
     dependencies = {
-        'nvim-lua/plenary.nvim',
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+        {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            build = "make",
+        },
     },
+
     config = function()
-        local actions = require('telescope.actions')
-        require('telescope').setup({
+        local telescope = require("telescope")
+        local actions = require("telescope.actions")
+        local builtin = require("telescope.builtin")
+
+        telescope.setup({
             defaults = {
+                prompt_prefix = "   ",
+                selection_caret = " ",
+                entry_prefix = " ",
+                sorting_strategy = "ascending",
+
+                layout_config = {
+                    horizontal = {
+                        prompt_position = "top",
+                        preview_width = 0.55,
+                    },
+                    width = 0.87,
+                    height = 0.80,
+                },
+
                 mappings = {
-                    i = {
-                        ["<C-k>"] = actions.move_selection_previous,                       -- move to prev result
-                        ["<C-j>"] = actions.move_selection_next,                           -- move to next result
-                        ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist, -- send selected to quickfixlist
-                    }
-                }
-            }
+                    n = {
+                        ["q"] = actions.close,
+                    },
+                },
+            },
         })
 
-        local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader><leader>', builtin.find_files, {})
-        vim.keymap.set('n', '<leader>fq', builtin.quickfix, {})
-        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-        vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+        telescope.load_extension("fzf")
 
-        -- Rip grep + Fzf
-        vim.keymap.set('n', '<leader>fg', function()
-            builtin.grep_string({ search = vim.fn.input("Grep > ") });
-        end)
+        local set = vim.keymap.set
 
-        -- Find instance instance of current view being included
-        vim.keymap.set('n', '<leader>fc', function()
-            local filename_without_extension = vim.fn.expand('%:t:r')
-            builtin.grep_string({ search = filename_without_extension })
-        end, { desc = "Find current file: " })
+        -- Telescope keymaps
+        set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
+        set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
+        set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+        set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
+        set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
+        set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+        set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+        set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
+        set("n", "<leader>sc", builtin.git_commits, { desc = "[S]earch git commits" })
+        set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+        set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 
-        -- Grep current string (for when gd doesn't work)
-        vim.keymap.set('n', '<leader>fs', function()
-            builtin.grep_string({})
-        end, { desc = "Find current string: " })
+        set("n", "<leader>/", function()
+            builtin.current_buffer_fuzzy_find(
+                require("telescope.themes").get_dropdown({
+                    winblend = 10,
+                    previewer = false,
+                })
+            )
+        end, { desc = "[/] Fuzzily search in current buffer" })
 
-        -- find files in vim config
-        vim.keymap.set('n', '<leader>fi', function()
-            builtin.find_files({ cwd = "~/.config/nvim/" });
-        end)
-    end
+        set("n", "<leader>sn", function()
+            builtin.find_files({ cwd = vim.fn.stdpath("config") })
+        end, { desc = "[S]earch [N]eovim files" })
+    end,
 }
