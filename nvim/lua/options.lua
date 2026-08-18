@@ -1,54 +1,52 @@
+-------- Options --------
 local o = vim.opt
-local g = vim.g
 
--- set local leader
-g.mapleader = " "
-g.maplocalleader = " "
+-------- Editing/Indentation --------
+o.number = true -- Show line numbers
+o.relativenumber = false -- Show relative line numbers
+o.tabstop = 4 -- Width of a tab character
+o.shiftwidth = 4 -- indentation width
+o.softtabstop = 4 -- How tab behaves while editing
+o.expandtab = true -- insert spaces instead of tabs
+o.smartindent = true -- Basic automatic indentation
+o.autoindent = true -- Copy indentation from previous line
+o.wrap = false -- Visually wrap long lines
+o.breakindent = true -- Keep indentation when wrapped
 
--- Yank hl
-vim.api.nvim_create_autocmd('TextYankPost', {
-    desc = 'Highlight when yanking (copying) text',
-    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', {clear = true}),
-    callback = function() vim.hl.on_yank() end,
-})
+-------- Search --------
+o.ignorecase = true -- Case-insensitive searching 
+o.smartcase = true -- Searching becomes case-sensitive if you use uppercase
+o.hlsearch = true -- Highlight search matches
+o.incsearch = true -- Show matches while typing a search
 
--- clipboard
-vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
-end)
+-------- UI --------
+o.cursorline = true -- Highlight the current line
+o.signcolumn = "yes" -- Always reserve space for diagnostics/signs
+o.termguicolors = true -- Enable 24-bit terminal colors
+o.showmode = false -- Hide mode eg. -- INSAERT --, etc.
+o.laststatus = 3 -- one statusline across the entire editor
+o.scrolloff = 10 -- Keep space above/below cursor
+o.sidescrolloff = 10 -- Keep space beside cursor
+o.cmdheight = 1 -- Command-line height
 
--- default options
-o.number 	    = true 		-- line numbers
-o.mouse 	    = 'a' 		-- enable mouse 
-o.showmode 	    = false 	-- dont show mode 
-o.breakindent 	= true 		-- enable break indent
-o.undofile 	    = true 		-- enable undo/redo after close of file
-o.signcolumn 	= 'yes' 	-- add left indent
-o.updatetime 	= 250 		-- update time
-o.timeoutlen 	= 300		-- decrease mapped key time
-o.inccommand	= 'split'	-- preview substitutions live
-o.cursorline 	= true 		-- enable line cursor 
-o.scrolloff	    = 10 		-- minimal number of screen lines to keep above and below the cursor
-o.confirm 	    = true		-- skip "are you sure commands"
+-------- Split --------
+o.splitbelow = true -- Horizontal splits open below
+o.splitright = true -- Vertical splits open right
 
--- indentation
-local indent 	= 4
-o.autoindent 	= true 		-- uses indent from previous line
-o.expandtab 	= true		-- spaces will be used to fill whitespace
-o.shiftround 	= true
-o.shiftwidth 	= indent
-o.smartindent 	= true 		-- like 'autoindent', recognizes some C syntax
-o.softtabstop 	= indent 	-- 
-o.tabstop 	    = indent
+-------- Files/Undo --------
+o.undofile = true -- Persist undo history between sessions
+o.swapfile = false -- Disable swap files
+o.backup = false -- Don't create backup files
+o.writebackup = false -- Don't create backup before writing
+o.autoread = true -- Automatically notice externally changed files
 
--- search lint
-o.hlsearch 	    = true
-o.ignorecase 	= true
-o.smartcase 	= true
+-------- Completion/Editing --------
+o.completeopt = "menuone,noselect" -- Controls completion popup behavior
+o.virtualedit = "block" -- Allows cursor beyond text in visual block mode
+o.clipboard = "unnamedplus" -- Use system clipboard
+o.mouse = "a" -- Enable mouse support
 
--- UI
-o.cmdheight 	= 0
-o.completeopt 	= ({"menu", "menuone", "noselect"})
-o.winborder 	= "rounded"
-o.winminwidth 	= 5
-o.wrap 		    = true
+-------- Performance --------
+o.updatetime = 250 -- Time before some events trigger
+o.timeoutlen = 300 -- How long Neovim waits for key sequences
+o.redrawtime = 10000 -- Maximum time spent redrawing
