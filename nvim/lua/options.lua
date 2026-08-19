@@ -45,8 +45,17 @@ o.completeopt = "menuone,noselect" -- Controls completion popup behavior
 o.virtualedit = "block" -- Allows cursor beyond text in visual block mode
 o.clipboard = "unnamedplus" -- Use system clipboard
 o.mouse = "a" -- Enable mouse support
+o.pumheight = 8 -- Auto complete show options
 
 -------- Performance --------
 o.updatetime = 250 -- Time before some events trigger
 o.timeoutlen = 300 -- How long Neovim waits for key sequences
 o.redrawtime = 10000 -- Maximum time spent redrawing
+
+-------- HL Yank --------
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function() vim.hl.on_yank() end,
+})
+
